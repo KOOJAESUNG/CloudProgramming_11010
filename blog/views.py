@@ -1,19 +1,30 @@
 from django.shortcuts import render
+from django.views.generic import ListView, DetailView
 
 from blog.models import Post
 
 
-# Create your views here.
-def post_list(request):
-    posts = Post.objects.all().order_by('-pk')
+class PostList(ListView):
+    model = Post
+    # template_name = 'blog/index.html'
+    ordering = '-pk'
 
-    return render(
-        request,
-        'blog/post_list.html',
-        {
-            'posts': posts,
-        }
-    )
+
+class PostDetail(DetailView):
+    model = Post
+
+
+# Create your views here.
+# def post_list(request):
+#     posts = Post.objects.all().order_by('-pk')
+#
+#     return render(
+#         request,
+#         'blog/post_list.html',
+#         {
+#             'posts': posts,
+#         }
+#     )
 
 
 def single_post_page(request, pk):
@@ -21,7 +32,7 @@ def single_post_page(request, pk):
 
     return render(
         request,
-        'blog/single_post_page.html',
+        'blog/post_detail.html',
         {
             'post': post,
         }
